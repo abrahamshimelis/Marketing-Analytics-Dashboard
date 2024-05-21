@@ -13,11 +13,11 @@ database = os.environ['PG_DATABASE']
 
 # Database connection parameters
 db_params = {
-    'dbname': database,  
+    'dbname': database,
     'user': user,
     'password': password,
-    'host': host, 
-    'port': port  
+    'host': host,
+    'port': port
 }
 
 # Name of the database
@@ -28,37 +28,47 @@ table_creation_queries = [
     '''
     CREATE TABLE telegram_post_performance (
         id SERIAL PRIMARY KEY,
-        post_id VARCHAR(255) UNIQUE NOT NULL,
-        timestamp TIMESTAMP ,
+        post_link VARCHAR(255) UNIQUE,
+        date TIMESTAMP,
         views INT,
-        likes INT,
-        comments INT,
-        shares INT
+        post_time TIME,
+        bank VARCHAR(255),
+        time_of_day VARCHAR(255)
     )
     ''',
     '''
     CREATE TABLE google_play_reviews (
         id SERIAL PRIMARY KEY,
-        review_id VARCHAR(255) UNIQUE NOT NULL,
-        timestamp TIMESTAMP ,
-        rating INT,
-        review_text TEXT,
-        app_id VARCHAR(255)
+        review_id VARCHAR(255) UNIQUE,
+        username VARCHAR(255),
+        user_image VARCHAR(255),
+        likes INT,
+        review_created_version VARCHAR(255),
+        created_at TIMESTAMP,
+        reply_content TEXT,
+        replied_at TIMESTAMP,
+        app_version VARCHAR(255),
+        score INT,
+        comments TEXT,
+        keywords VARCHAR(255),
+        lda_category VARCHAR(255),
+        sentiment VARCHAR(255),
+        insight TEXT
     )
     ''',
     '''
     CREATE TABLE google_play_downloads (
         id SERIAL PRIMARY KEY,
-        app_id VARCHAR(255) NOT NULL,
-        timestamp TIMESTAMP,
+        app_id VARCHAR(255),
+        date TIMESTAMP,
         downloads INT
     )
     ''',
     '''
     CREATE TABLE telegram_subscription_growth (
         id SERIAL PRIMARY KEY,
-        channel_id VARCHAR(255) NOT NULL,
-        timestamp TIMESTAMP,
+        channel_id VARCHAR(255),
+        date TIMESTAMP,
         subscriber_count INT
     )
     '''
