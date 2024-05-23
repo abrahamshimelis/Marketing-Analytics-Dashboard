@@ -67,7 +67,6 @@ def main(app_id, csv_filename):
     reviews_list = collect_all_reviews(app_id)
     save_reviews_to_csv(reviews_list, csv_filename)
 
-# Example usage
 if __name__ == '__main__':
     app_id = 'com.boa.apollo'
     csv_filename = 'app_reviews.csv'
