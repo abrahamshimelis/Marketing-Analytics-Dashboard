@@ -125,6 +125,35 @@ def plot_time_series_for_single_category(df, date_column, value_column, category
     plt.grid(True) 
     plt.show() 
 
+def plot_categorical_two_cols_unstack(df, col1, col2):
+    # Group by col2 and col1 and count the unique values
+    data = df.groupby([col2, col1]).size().unstack()
+
+    # Create the bar chart
+    data.plot(kind='bar', stacked=False)
+
+    # Set the labels
+    plt.ylabel('Count of ' + col1)
+    plt.xlabel(col2)
+    plt.title('Count of ' + col1 + ' per ' + col2)
+
+    # Show the plot
+    plt.show()
+
+def plot_categorical_two_cols(df, col1, col2):
+    # Group by col2 and count the unique values of col1
+    data = df.groupby(col2)[col1].nunique()
+
+    # Create the bar chart
+    data.plot(kind='bar')
+
+    # Set the labels
+    plt.ylabel('Count of ' + col1)
+    plt.xlabel(col2)
+    plt.title('Count of ' + col1 + ' per ' + col2)
+
+    # Show the plot
+    plt.show()
 
 def display_summary_table(data_summary):
     for col, summary in data_summary.items():
