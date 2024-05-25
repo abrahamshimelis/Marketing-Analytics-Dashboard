@@ -50,6 +50,20 @@ def plot_bar_chart(df, col):
     plt.grid(True)
     plt.show()
 
+def plot_bar_chart_for_cols(df, num_column, cat_column):
+    # Group by category and sum the numerical values
+    df_grouped = df.groupby(cat_column)[num_column].sum().reset_index()
+
+    # Plot the bar chart for the total numerical values per category
+    plt.figure(figsize=(10, 6))  # Create a new figure with a specific size (optional)
+    plt.bar(df_grouped[cat_column], df_grouped[num_column], color='blue', alpha=0.7)  # Plot the bar chart
+    plt.xlabel(cat_column)  # Label for the x-axis
+    plt.ylabel('Total ' + num_column)  # Label for the y-axis
+    plt.title('Total ' + num_column + ' Per ' + cat_column)  # Title of the plot
+    plt.xticks(rotation=90)  # Rotate the x-axis labels if they are long
+    plt.grid(True)  # Show the grid (optional)
+    plt.show()  # Display the plot
+
 def plot_time_series(df, date_column, value_column):
     # Group by date and sum the values
     df_grouped = df.groupby(date_column)[value_column].sum().reset_index()
@@ -104,12 +118,12 @@ def plot_time_series_for_single_category(df, date_column, value_column, category
     # Plot the line chart for the total values per date
     plt.figure(figsize=(10, 6))  # Create a new figure with a specific size (optional)
     plt.plot(df_grouped[date_column], df_grouped[value_column], label=category_value)  # Plot the line chart
-    plt.xlabel('Date')  # Label for the x-axis
-    plt.ylabel('Total ' + value_column)  # Label for the y-axis
-    plt.title('Total ' + value_column + ' Over Time for ' + category_value)  # Title of the plot
-    plt.legend()  # Show the legend
-    plt.grid(True)  # Show the grid (optional)
-    plt.show()  # Display the plot
+    plt.xlabel('Date') 
+    plt.ylabel('Total ' + value_column) 
+    plt.title('Total ' + value_column + ' Over Time for ' + category_value)
+    plt.legend() 
+    plt.grid(True) 
+    plt.show() 
 
 
 def display_summary_table(data_summary):
