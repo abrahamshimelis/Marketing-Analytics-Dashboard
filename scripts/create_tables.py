@@ -49,11 +49,8 @@ table_creation_queries = [
         replied_at TIMESTAMP,
         app_version VARCHAR(255),
         score INT,
-        comments TEXT,
-        keywords VARCHAR(255),
-        lda_category VARCHAR(255),
+        user_comments TEXT,,
         sentiment VARCHAR(255),
-        insight TEXT
     )
     ''',
     '''
