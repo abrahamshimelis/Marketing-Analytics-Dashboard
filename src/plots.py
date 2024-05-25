@@ -50,25 +50,67 @@ def plot_bar_chart(df, col):
     plt.grid(True)
     plt.show()
 
-def plot_time_series(df, time_col, value_col):
+def plot_time_series(df, date_column, value_column):
+    # Group by date and sum the values
+    df_grouped = df.groupby(date_column)[value_column].sum().reset_index()
+
+    # Plot the line chart for the total values per date
+    plt.figure(figsize=(10, 6))  # Create a new figure with a specific size (optional)
+    plt.plot(df_grouped[date_column], df_grouped[value_column], label=value_column)  # Plot the line chart
+    plt.xlabel('Date')  # Label for the x-axis
+    plt.ylabel('Total ' + value_column)  # Label for the y-axis
+    plt.title('Total ' + value_column + ' Over Time')  # Title of the plot
+    plt.legend()  # Show the legend
+    plt.grid(True)  # Show the grid (optional)
+    plt.show()  # Display the plot
+
+def plot_time_series_by_category(df, date_column, value_column, category_column):
+    # Create a new figure with a specific size (optional)
     plt.figure(figsize=(10, 6))
-    plt.plot(df[time_col], df[value_col], color='skyblue')
-    plt.title(f'Time Series Plot of {value_col}')
-    plt.xlabel('Time')
-    plt.ylabel(value_col)
-    plt.grid(True)
-    plt.xticks(rotation=45)
+
+    # Get the unique categories
+    categories = df[category_column].unique()
+
+    # For each category
+    for category in categories:
+        # Filter the DataFrame for the category
+        df_filtered = df[df[category_column] == category]
+
+        # Group by date and sum the values
+        df_grouped = df_filtered.groupby(date_column)[value_column].sum().reset_index()
+
+        # Plot the line chart for the total values per date
+        plt.plot(df_grouped[date_column], df_grouped[value_column], label=category)
+
+    # Set the labels and title
+    plt.xlabel('Date')  # Label for the x-axis
+    plt.ylabel('Total ' + value_column)  # Label for the y-axis
+    plt.title('Total ' + value_column + ' Over Time by ' + category_column)  # Title of the plot
+
+    # Show the legend and grid
+    plt.legend()  # Show the legend
+    plt.grid(True)  # Show the grid (optional)
+
+    # Display the plot
     plt.show()
 
-def plot_time_series_dots(df, time_col, value_col):
-    plt.figure(figsize=(10, 6))
-    plt.scatter(df[time_col], df[value_col], color='skyblue', marker='o')
-    plt.title(f'Time Series Plot with Dots of {value_col}')
-    plt.xlabel('Time')
-    plt.ylabel(value_col)
-    plt.grid(True)
-    plt.xticks(rotation=45)
-    plt.show()
+def plot_time_series_for_single_category(df, date_column, value_column, category_column, category_value):
+    # Filter the DataFrame for the category
+    df_filtered = df[df[category_column] == category_value]
+
+    # Group by date and sum the values
+    df_grouped = df_filtered.groupby(date_column)[value_column].sum().reset_index()
+
+    # Plot the line chart for the total values per date
+    plt.figure(figsize=(10, 6))  # Create a new figure with a specific size (optional)
+    plt.plot(df_grouped[date_column], df_grouped[value_column], label=category_value)  # Plot the line chart
+    plt.xlabel('Date')  # Label for the x-axis
+    plt.ylabel('Total ' + value_column)  # Label for the y-axis
+    plt.title('Total ' + value_column + ' Over Time for ' + category_value)  # Title of the plot
+    plt.legend()  # Show the legend
+    plt.grid(True)  # Show the grid (optional)
+    plt.show()  # Display the plot
+
 
 def display_summary_table(data_summary):
     for col, summary in data_summary.items():
