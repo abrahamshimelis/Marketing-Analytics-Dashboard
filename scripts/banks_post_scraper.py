@@ -12,7 +12,7 @@ start_post = 70000
 end_post = 87823
 
 # Define the keywords to check for
-keywords = ['#BOA', '#WegagenBank', '#CBE', '#AwashBank', '#Hibretbank', '#GlobalBankEthiopia']
+keywords = ['#bankofabyssinia', '#WegagenBank', '#CBE', '#AwashBank', '#Hibretbank', '#GlobalBankEthiopia']
 
 # Helper function to convert views to numbers
 def convert_views(views_str):
