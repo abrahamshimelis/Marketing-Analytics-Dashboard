@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from tabulate import tabulate
@@ -182,3 +183,49 @@ def box_plots(df):
         sns.boxplot(x=df[column])
         plt.title(f'Box plot of {column}')
         plt.show()
+
+def merged_by_date_two_cols_plot(df1, df2, col1, col2, date_col1, date_col2):
+    # Convert the 'date' columns to datetime format
+    df1[date_col1] = pd.to_datetime(df1[date_col1])
+    df2[date_col2] = pd.to_datetime(df2[date_col2])
+
+    # Group by date and count the posts
+    df1_grouped = df1.groupby(date_col1).size().reset_index(name=col1)
+
+    # Merge the two dataframes on 'date'
+    merged_df = pd.merge(df2, df1_grouped, left_on=date_col2, right_on=date_col1, how='left')
+
+    # Fill NaN values in 'post_count' column with 0
+    merged_df[col1] = merged_df[col1].fillna(0)
+
+    # Convert 'post_count' to int
+    merged_df[col1] = merged_df[col1].astype(int)
+
+    # Sort dataframe by date
+    merged_df = merged_df.sort_values(date_col2)
+
+    # Create an array with the dates
+    dates = np.array(merged_df[date_col2])
+
+    # Create a figure and a set of subplots
+    fig, ax1 = plt.subplots()
+
+    # Plot the post count
+    color = 'tab:blue'
+    ax1.set_xlabel('Date')
+    ax1.set_ylabel(col1, color=color)
+    ax1.bar(dates, merged_df[col1], color=color)
+    ax1.tick_params(axis='y', labelcolor=color)
+
+    # Create a second y-axis for the subscriber count
+    ax2 = ax1.twinx()
+    color = 'tab:red'
+    ax2.set_ylabel(col2, color=color)
+    ax2.plot(dates, merged_df[col2], color=color)
+    ax2.tick_params(axis='y', labelcolor=color)
+
+    # Format the x-axis to display dates clearly
+    fig.autofmt_xdate()
+
+    # Show the plot
+    plt.show()
