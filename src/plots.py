@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from tabulate import tabulate
 
-
 # Function to plot histograms for numerical variables
 def plot_histograms(df):
     numerical_cols = df.select_dtypes(include=np.number).columns.tolist()
@@ -229,3 +228,4 @@ def merged_by_date_two_cols_plot(df1, df2, col1, col2, date_col1, date_col2):
 
     # Show the plot
     plt.show()
+

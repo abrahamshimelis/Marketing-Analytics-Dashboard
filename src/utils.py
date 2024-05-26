@@ -113,6 +113,27 @@ def get_numeric_columns(df):
     numeric_columns = df.select_dtypes(include=['number']).columns.tolist()
     return numeric_columns
 
+def merge_and_sort(df1, df2, date_col1, date_col2, col1):
+    # Convert the 'date' columns to datetime format
+    df1[date_col1] = pd.to_datetime(df1[date_col1])
+    df2[date_col2] = pd.to_datetime(df2[date_col2])
+
+    # Group by date and count the posts
+    df1_grouped = df1.groupby(date_col1).size().reset_index(name=col1)
+
+    # Merge the two dataframes on 'date'
+    merged_df = pd.merge(df2, df1_grouped, left_on=date_col2, right_on=date_col1, how='left')
+
+    # Fill NaN values in 'post_count' column with 0
+    merged_df[col1] = merged_df[col1].fillna(0)
+
+    # Convert 'post_count' to int
+    merged_df[col1] = merged_df[col1].astype(int)
+
+    # Sort dataframe by date
+    merged_df = merged_df.sort_values(date_col2)
+    
+    return merged_df
 
 def check_numeric_anomalies(df, column, lower_bound=None, upper_bound=None):
     """
